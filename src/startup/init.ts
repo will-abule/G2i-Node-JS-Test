@@ -12,7 +12,16 @@ import objectId from "joi-objectid";
 //
 
 export async function init(app: Express) {
-  app.use(cors());
+  app.use(
+    cors({
+      exposedHeaders: [
+        "page-size",
+        "page-number",
+        "total-pages",
+        "total-records",
+      ],
+    })
+  );
   app.use(helmet());
   app.use(compression());
 

@@ -34,6 +34,16 @@ describe("/acronym", () => {
     }
   });
 
+  describe("GET /random", () => {
+    it("should get the list of random acronym return 200", async () => {
+      await populateDB();
+      const res = await request(server).get("/random/10");
+
+      expect(res.status).toBe(200);
+      await Acronym.deleteMany();
+    });
+  });
+
   describe("GET /acronym", () => {
     it("should get the list of acronym return 200", async () => {
       await populateDB();
@@ -44,6 +54,11 @@ describe("/acronym", () => {
       });
 
       expect(res.status).toBe(200);
+      expect(res.headers["page-size"]).toBeDefined();
+      expect(res.headers["page-number"]).toBeDefined();
+      expect(res.headers["total-pages"]).toBeDefined();
+      expect(res.headers["total-records"]).toBeDefined();
+
       await Acronym.deleteMany();
     });
 

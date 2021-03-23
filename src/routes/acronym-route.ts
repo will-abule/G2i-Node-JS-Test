@@ -69,7 +69,14 @@ router.get("/", async (req: Request, res: Response) => {
       .status(status)
       .send({ message: `internal server error`, error: msg });
 
-  return res.send(data);
+  res.set({
+    "page-size": data?.pageSize,
+    "page-number": data?.pageNumber,
+    "total-pages": data?.total,
+    "total-records": data?.records,
+  });
+
+  return res.send(data?.data);
 });
 
 router.get("/:acronym", async (req: Request, res: Response) => {
